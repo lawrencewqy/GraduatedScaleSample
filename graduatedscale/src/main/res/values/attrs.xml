@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScaleView">
+        <attr name="scaleLineColor" format="color" />
+        <attr name="scaleCursorColor" format="color" />
+        <attr name="scaleLineHeight" format="dimension"/>
+        <attr name="scaleLineWidth" format="dimension"/>
+        <attr name="scaleCursorHeight" format="dimension"/>
+        <attr name="scaleCursorWidth" format="dimension"/>
+        <attr name="scaleCursorImage" format="reference" />
+        <attr name="scaleBottomLineHeight" format="integer" />
+        <attr name="scaleHighLightColor" format="color" />
+    </declare-styleable>
+</resources>
