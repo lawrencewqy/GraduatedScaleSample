@@ -10,5 +10,7 @@
         <attr name="scaleCursorImage" format="reference" />
         <attr name="scaleBottomLineHeight" format="integer" />
         <attr name="scaleHighLightColor" format="color" />
+        <attr name="scaleLineCount" format="integer"/>
+        <attr name="scaleLineSpace" format="dimension"/>
     </declare-styleable>
 </resources>
