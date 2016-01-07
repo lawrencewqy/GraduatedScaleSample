@@ -4,11 +4,11 @@
         <attr name="scaleLineColor" format="color" />
         <attr name="scaleCursorColor" format="color" />
         <attr name="scaleLineHeight" format="dimension"/>
-        <attr name="scaleLineWidth" format="dimension"/>
+        <attr name="scaleLineStrokeWidth" format="dimension"/>
         <attr name="scaleCursorHeight" format="dimension"/>
         <attr name="scaleCursorWidth" format="dimension"/>
         <attr name="scaleCursorImage" format="reference" />
-        <attr name="scaleBottomLineHeight" format="integer" />
+        <attr name="scaleBottomStrokeWidth" format="integer" />
         <attr name="scaleHighLightColor" format="color" />
         <attr name="scaleLineCount" format="integer"/>
         <attr name="scaleLineSpace" format="dimension"/>
