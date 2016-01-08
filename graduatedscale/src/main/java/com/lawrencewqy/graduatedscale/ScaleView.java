@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -159,9 +158,7 @@ public class ScaleView extends FrameLayout {
         }
         return mLinePaint;
     }
-
     Paint mBottomPaint;
-
     public Paint getBottomPaint() {
         if(mBottomPaint == null){
             mBottomPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
