@@ -85,6 +85,7 @@ public class ScaleView extends FrameLayout {
                             mCursorView.setBackgroundColor(mCursorColor);
                     }
                     addView(mCursorView);
+                    requestLayout();
                 }else{
                     FrameLayout.LayoutParams params = (LayoutParams) mCursorView.getLayoutParams();
                     params.topMargin = getHeight() - params.height;
@@ -105,6 +106,13 @@ public class ScaleView extends FrameLayout {
         setMeasuredDimension(width,height);
         Log.d("ScaleView","width = "+width+"height = "+height);
 //        super.onMeasure(widthMeasureSpec,heightMeasureSpec);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        if(mCursorView != null){
+            mCursorView.layout(0,getHeight()-mCursorHeight,mCursorWidth,getHeight());
+        }
     }
 
     public ScaleView(Context context, AttributeSet attrs, int defStyleAttr) {
