@@ -8,15 +8,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 /**
  * Created by lawrence on 16/1/5.
  */
-public class ScaleView extends FrameLayout {
+public class ScaleView extends ViewGroup {
 
     public static final int DEFAULT_BOTTOMLINE_STROKE = 10;
 
@@ -52,6 +54,8 @@ public class ScaleView extends FrameLayout {
 
     View mCursorView;
 
+
+
     public ScaleView(Context context) {
         this(context,null);
     }
@@ -70,8 +74,6 @@ public class ScaleView extends FrameLayout {
                 if(mCursorView == null) {
                     mCursorView = new View(getContext());
                     LayoutParams params = new LayoutParams(mCursorWidth,mCursorHeight);
-                    params.topMargin = getMeasuredHeight() - mCursorHeight;
-                    params.leftMargin = mCursorHeight;
                     mCursorView.setLayoutParams(params);
                     if(mCursorDrawable != null){
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -86,8 +88,8 @@ public class ScaleView extends FrameLayout {
                     addView(mCursorView);
                     requestLayout();
                 }else{
-                    FrameLayout.LayoutParams params = (LayoutParams) mCursorView.getLayoutParams();
-                    params.topMargin = getHeight() - params.height;
+                    mCursorWidth = mCursorView.getWidth();
+                    mCursorHeight = mCursorView.getHeight();
                 }
 
             }
@@ -104,7 +106,6 @@ public class ScaleView extends FrameLayout {
         }
         setMeasuredDimension(width,height);
         Log.d("ScaleView","width = "+width+"height = "+height);
-//        super.onMeasure(widthMeasureSpec,heightMeasureSpec);
     }
 
     @Override
@@ -116,7 +117,7 @@ public class ScaleView extends FrameLayout {
 
     public ScaleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        //if you override onDraw , you should setWillNotDraw(false)
+        //in ViewGroup if you override onDraw , you should setWillNotDraw(false)
         this.setWillNotDraw(false);
         TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.SearchView,defStyleAttr,0);
         mLineColorList = a.getColorStateList(R.styleable.ScaleView_scaleLineColor);
