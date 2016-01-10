@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -145,6 +146,8 @@ public class ScaleView extends ViewGroup {
             mCursorColor = Color.BLUE;
         if(mHighLightColorList != null)
             mHighLightColor = mHighLightColorList.getColorForState(getDrawableState(),0);
+        else
+            mHighLightColor = Color.RED;
 
         mBottomStrokeWidth = a.getDimensionPixelSize(R.styleable.ScaleView_scaleBottomStrokeWidth, DEFAULT_BOTTOMLINE_STROKE);
 
@@ -178,6 +181,8 @@ public class ScaleView extends ViewGroup {
         return true;
     }
 
+    int currentPos = 0;
+
     ViewDragHelper.Callback mCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
@@ -198,11 +203,32 @@ public class ScaleView extends ViewGroup {
         }
 
         @Override
-        public void onViewCaptured(View capturedChild, int activePointerId) {
-            super.onViewCaptured(capturedChild, activePointerId);
-            Log.d("ScaleView","capturedChild " + capturedChild);
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            super.onViewPositionChanged(changedView, left, top, dx, dy);
+            int currpos = Math.round((left - mCursorWidth/2f)/(mLineSpace+mLineStrokeWidth));
+            if(currentPos != currpos){
+                currentPos = currpos;
+                invalidate();
+            }
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            super.onViewReleased(releasedChild, xvel, yvel);
+            int left = getPaddingLeft() + currentPos*(mLineSpace + mLineStrokeWidth);
+            int top = getHeight()-mCursorHeight;
+            mViewDragHelper.smoothSlideViewTo(mCursorView,left,top);
+            ViewCompat.postInvalidateOnAnimation(ScaleView.this);
         }
     };
+
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
+        if(mViewDragHelper.continueSettling(true)) {
+            ViewCompat.postInvalidateOnAnimation(this);
+        }
+    }
 
     Paint mLinePaint;
     public Paint getLinePaint() {
@@ -231,6 +257,10 @@ public class ScaleView extends ViewGroup {
         for(int i =0;i<=mLineCount;i++){
             int left = getPaddingLeft() + (i*(mLineSpace+mLineStrokeWidth))+mLineStrokeWidth/2+mCursorWidth/2;
             int top = getPaddingRight() + mLineHeight;
+            if(currentPos == i)
+                getLinePaint().setColor(mHighLightColor);
+            else
+                getLinePaint().setColor(mLineColor);
             canvas.drawLine(left, top,left,getPaddingTop(), getLinePaint());
         }
         canvas.drawLine(getPaddingLeft()+mCursorWidth/2,getPaddingTop()+mLineHeight,getWidth()-mCursorWidth/2,getPaddingTop()+mLineHeight,getBottomPaint());
