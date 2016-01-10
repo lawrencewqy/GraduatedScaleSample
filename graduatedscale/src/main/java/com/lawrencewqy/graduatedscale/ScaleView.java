@@ -126,10 +126,12 @@ public class ScaleView extends ViewGroup {
 
     public ScaleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.setWillNotDraw(false);
         //in ViewGroup if you override onDraw , you should setWillNotDraw(false)
         mViewDragHelper = ViewDragHelper.create(this,1.0f,mCallback);
-        this.setWillNotDraw(false);
-        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.SearchView,defStyleAttr,0);
+        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.ScaleView);
+
+
         mLineColorList = a.getColorStateList(R.styleable.ScaleView_scaleLineColor);
         mCursorColorList = a.getColorStateList(R.styleable.ScaleView_scaleCursorColor);
         mHighLightColorList = a.getColorStateList(R.styleable.ScaleView_scaleHighLightColor);
@@ -147,13 +149,14 @@ public class ScaleView extends ViewGroup {
         mBottomStrokeWidth = a.getDimensionPixelSize(R.styleable.ScaleView_scaleBottomStrokeWidth, DEFAULT_BOTTOMLINE_STROKE);
 
         mLineHeight = a.getDimensionPixelSize(R.styleable.ScaleView_scaleLineHeight,DEFAULT_LINE_HEIGHT);
+        mLineCount = a.getInt(R.styleable.ScaleView_scaleLineCount,DEFAULT_LINE_COUNT);
+        mLineSpace = a.getDimensionPixelSize(R.styleable.ScaleView_scaleLineSpace,DEFAULT_LINE_SPACE);
         mLineStrokeWidth = a.getDimensionPixelSize(R.styleable.ScaleView_scaleLineStrokeWidth, DEFAULT_LINE_STROKE);
 
         mCursorWidth = a.getDimensionPixelSize(R.styleable.ScaleView_scaleCursorWidth,DEFAULT_CURSOR_WIDTH);
         mCursorHeight = a.getDimensionPixelSize(R.styleable.ScaleView_scaleCursorHeight,DEFAULT_CURSOR_HEIGHT);
 
-        mLineCount = a.getInt(R.styleable.ScaleView_scaleLineCount,DEFAULT_LINE_COUNT);
-        mLineSpace = a.getDimensionPixelSize(R.styleable.ScaleView_scaleLineSpace,DEFAULT_LINE_SPACE);
+
 
         mCursorDrawable = a.getDrawable(R.styleable.ScaleView_scaleCursorImage);
         a.recycle();
