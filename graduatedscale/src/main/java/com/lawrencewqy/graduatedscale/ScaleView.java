@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * Created by lawrence on 16/1/5.
@@ -77,43 +78,30 @@ public class ScaleView extends ViewGroup {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        post(new Runnable() {
-            @Override
-            public void run() {
-                mCursorView = findViewById(R.id.scale_cursor);
-                if(mCursorView == null) {
-                    mCursorView = new View(getContext());
-                    LayoutParams params = new LayoutParams(mCursorWidth,mCursorHeight);
-                    mCursorView.setLayoutParams(params);
-                    if(mCursorDrawable != null){
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            mCursorView.setBackground(mCursorDrawable);
-                        }else{
-                            mCursorView.setBackgroundDrawable(mCursorDrawable);
-                        }
-                    }else{
-                        if(mCursorColor != -1)
-                            mCursorView.setBackgroundColor(mCursorColor);
-                    }
-                    addView(mCursorView);
-                    requestLayout();
+        mCursorView = getChildAt(0);
+        if(mCursorView == null) {
+            mCursorView = new View(getContext());
+            LayoutParams params = new LayoutParams(mCursorWidth,mCursorHeight);
+            mCursorView.setLayoutParams(params);
+            if(mCursorDrawable != null){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mCursorView.setBackground(mCursorDrawable);
                 }else{
-                    mCursorWidth = mCursorView.getWidth();
-                    mCursorHeight = mCursorView.getHeight();
+                    mCursorView.setBackgroundDrawable(mCursorDrawable);
                 }
-
+            }else{
+                if(mCursorColor != -1)
+                    mCursorView.setBackgroundColor(mCursorColor);
             }
-        });
+            addView(mCursorView);
+            requestLayout();
+        }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = (mLineStrokeWidth + mLineSpace) * mLineCount + mLineStrokeWidth +mCursorWidth+ getPaddingLeft() + getPaddingRight();
         int height = (mLineHeight + mBottomStrokeWidth + mCursorHeight) + getPaddingTop() + getPaddingBottom();
-        if(mCursorDrawable != null){
-            width = width+mCursorDrawable.getIntrinsicWidth();
-            height = mLineHeight + mBottomStrokeWidth + mCursorDrawable.getIntrinsicHeight() + getPaddingTop() + getPaddingBottom();
-        }
         setMeasuredDimension(width,height);
         Log.d("ScaleView","width = "+width+"height = "+height);
     }
@@ -162,6 +150,10 @@ public class ScaleView extends ViewGroup {
 
 
         mCursorDrawable = a.getDrawable(R.styleable.ScaleView_scaleCursorImage);
+        if(mCursorDrawable != null) {
+            mCursorWidth = mCursorDrawable.getIntrinsicWidth();
+            mCursorHeight = mCursorDrawable.getIntrinsicHeight();
+        }
         a.recycle();
     }
 
@@ -205,7 +197,8 @@ public class ScaleView extends ViewGroup {
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            int currpos = Math.round((left - mCursorWidth/2f)/(mLineSpace+mLineStrokeWidth));
+            int currpos = Math.round(left*1f/(mLineSpace+mLineStrokeWidth));
+            Log.d("ScaleView","left = "+left+"currpos = "+currpos);
             if(currentPos != currpos){
                 currentPos = currpos;
                 invalidate();
@@ -215,10 +208,11 @@ public class ScaleView extends ViewGroup {
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
-            int left = getPaddingLeft() + currentPos*(mLineSpace + mLineStrokeWidth);
+            int left = getPaddingLeft() + currentPos*(mLineSpace + mLineStrokeWidth)+mLineStrokeWidth/2;
             int top = getHeight()-mCursorHeight;
             mViewDragHelper.smoothSlideViewTo(mCursorView,left,top);
             ViewCompat.postInvalidateOnAnimation(ScaleView.this);
+            Toast.makeText(getContext(),"current position is "+currentPos,Toast.LENGTH_SHORT).show();
         }
     };
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,22 +9,36 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main"
     tools:context="com.lawrencewqy.graduatedscalesample.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        />
-
     <com.lawrencewqy.graduatedscale.ScaleView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
         app:scaleCursorColor="@color/colorAccent"
         app:scaleLineStrokeWidth="2dp"
         />
 
-</RelativeLayout>
+
+
+    <com.lawrencewqy.graduatedscale.ScaleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:scaleLineStrokeWidth="2dp"
+        app:scaleCursorImage="@drawable/ic_pin"
+        />
+
+    <com.lawrencewqy.graduatedscale.ScaleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:scaleLineStrokeWidth="2dp"
+        app:scaleCursorImage="@drawable/ic_pin_red"
+        />
+
+</LinearLayout>
