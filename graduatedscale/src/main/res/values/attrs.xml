@@ -12,5 +12,7 @@
         <attr name="scaleHighLightColor" format="color|reference" />
         <attr name="scaleLineCount" format="integer"/>
         <attr name="scaleLineSpace" format="dimension"/>
+        <attr name="scaleTextSize" format="dimension"/>
+        <attr name="scaleTextColor" format="color"/>
     </declare-styleable>
 </resources>

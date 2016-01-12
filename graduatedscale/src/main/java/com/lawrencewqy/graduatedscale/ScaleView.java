@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.MotionEventCompat;
@@ -18,6 +19,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by lawrence on 16/1/5.
@@ -40,15 +43,21 @@ public class ScaleView extends ViewGroup {
     public static final int DEFAULT_LINE_SPACE = dm2px(25);
     public static final int DEFAULT_LINE_COUNT = 10;
 
+    public static final int DEFAULT_TEXT_SIZE = dm2px(12);
+
     ColorStateList mCursorColorList;
     ColorStateList mLineColorList;
     ColorStateList mHighLightColorList;
+    ColorStateList mTextColorList;
 
     Drawable mCursorDrawable;
 
     int mCursorColor = -1;
     int mLineColor = -1;
     int mHighLightColor = -1;
+    int mTextColor = -1;
+
+    int mTextSize;
 
     int mBottomStrokeWidth;
 
@@ -65,7 +74,12 @@ public class ScaleView extends ViewGroup {
 
     ViewDragHelper mViewDragHelper;
 
+    ArrayList<String> contentList;
 
+    public void setContentList(ArrayList<String> contentList) {
+        this.contentList = contentList;
+        requestLayout();
+    }
 
     public ScaleView(Context context) {
         this(context,null);
@@ -76,32 +90,9 @@ public class ScaleView extends ViewGroup {
     }
 
     @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        mCursorView = getChildAt(0);
-        if(mCursorView == null) {
-            mCursorView = new View(getContext());
-            LayoutParams params = new LayoutParams(mCursorWidth,mCursorHeight);
-            mCursorView.setLayoutParams(params);
-            if(mCursorDrawable != null){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mCursorView.setBackground(mCursorDrawable);
-                }else{
-                    mCursorView.setBackgroundDrawable(mCursorDrawable);
-                }
-            }else{
-                if(mCursorColor != -1)
-                    mCursorView.setBackgroundColor(mCursorColor);
-            }
-            addView(mCursorView);
-            requestLayout();
-        }
-    }
-
-    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = (mLineStrokeWidth + mLineSpace) * mLineCount + mLineStrokeWidth +mCursorWidth+ getPaddingLeft() + getPaddingRight();
-        int height = (mLineHeight + mBottomStrokeWidth + mCursorHeight) + getPaddingTop() + getPaddingBottom();
+        int width = (mLineStrokeWidth + mLineSpace) * mLineCount + mLineStrokeWidth +mCursorWidth  + getPaddingLeft() + getPaddingRight();
+        int height = (mLineHeight + mBottomStrokeWidth + mCursorHeight + mTextSize) + getPaddingTop() + getPaddingBottom();
         setMeasuredDimension(width,height);
         Log.d("ScaleView","width = "+width+"height = "+height);
     }
@@ -124,6 +115,7 @@ public class ScaleView extends ViewGroup {
         mLineColorList = a.getColorStateList(R.styleable.ScaleView_scaleLineColor);
         mCursorColorList = a.getColorStateList(R.styleable.ScaleView_scaleCursorColor);
         mHighLightColorList = a.getColorStateList(R.styleable.ScaleView_scaleHighLightColor);
+        mTextColorList = a.getColorStateList(R.styleable.ScaleView_scaleTextColor);
         if(mLineColorList != null)
             mLineColor = mLineColorList.getColorForState(getDrawableState(),0);
         else
@@ -136,6 +128,10 @@ public class ScaleView extends ViewGroup {
             mHighLightColor = mHighLightColorList.getColorForState(getDrawableState(),0);
         else
             mHighLightColor = Color.RED;
+        if(mTextColorList != null)
+            mTextColor = mTextColorList.getColorForState(getDrawableState(),0);
+        else
+            mTextColor = Color.RED;
 
         mBottomStrokeWidth = a.getDimensionPixelSize(R.styleable.ScaleView_scaleBottomStrokeWidth, DEFAULT_BOTTOMLINE_STROKE);
 
@@ -147,7 +143,7 @@ public class ScaleView extends ViewGroup {
         mCursorWidth = a.getDimensionPixelSize(R.styleable.ScaleView_scaleCursorWidth,DEFAULT_CURSOR_WIDTH);
         mCursorHeight = a.getDimensionPixelSize(R.styleable.ScaleView_scaleCursorHeight,DEFAULT_CURSOR_HEIGHT);
 
-
+        mTextSize = a.getDimensionPixelSize(R.styleable.ScaleView_scaleTextSize,DEFAULT_TEXT_SIZE);
 
         mCursorDrawable = a.getDrawable(R.styleable.ScaleView_scaleCursorImage);
         if(mCursorDrawable != null) {
@@ -155,6 +151,26 @@ public class ScaleView extends ViewGroup {
             mCursorHeight = mCursorDrawable.getIntrinsicHeight();
         }
         a.recycle();
+        addCursorView();
+    }
+
+    public void addCursorView(){
+        if(mCursorView == null){
+            mCursorView = new View(getContext());
+            LayoutParams params = new LayoutParams(mCursorWidth,mCursorHeight);
+            mCursorView.setLayoutParams(params);
+            if(mCursorDrawable != null){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mCursorView.setBackground(mCursorDrawable);
+                }else{
+                    mCursorView.setBackgroundDrawable(mCursorDrawable);
+                }
+            }else{
+                if(mCursorColor != -1)
+                    mCursorView.setBackgroundColor(mCursorColor);
+            }
+            addView(mCursorView);
+        }
     }
 
     @Override
@@ -245,18 +261,38 @@ public class ScaleView extends ViewGroup {
         return mBottomPaint;
     }
 
+    Paint mTextPaint;
+    public Paint getTextPaint(){
+        if(mTextPaint == null){
+            mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            mTextPaint.setTextSize(mTextSize);
+            mTextPaint.setColor(mTextColor);
+        }
+        return mTextPaint;
+    }
+
+    Rect mRect = new Rect();
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         for(int i =0;i<=mLineCount;i++){
             int left = getPaddingLeft() + (i*(mLineSpace+mLineStrokeWidth))+mLineStrokeWidth/2+mCursorWidth/2;
-            int top = getPaddingRight() + mLineHeight;
+            int top = getPaddingRight() + mLineHeight + mTextSize;
             if(currentPos == i)
                 getLinePaint().setColor(mHighLightColor);
             else
                 getLinePaint().setColor(mLineColor);
-            canvas.drawLine(left, top,left,getPaddingTop(), getLinePaint());
+            canvas.drawLine(left, top,left,getPaddingTop()+mTextSize, getLinePaint());
+            String content = "";
+            if(contentList == null){
+                content = String.valueOf(i);
+            }else{
+                if(contentList.size() > i)
+                    content = contentList.get(i);
+            }
+            getTextPaint().getTextBounds(content,0,content.length(),mRect);
+            canvas.drawText(content,left-mRect.exactCenterX(),getPaddingTop()+mTextSize/2 - mRect.exactCenterY(),getTextPaint());
         }
-        canvas.drawLine(getPaddingLeft()+mCursorWidth/2,getPaddingTop()+mLineHeight,getWidth()-mCursorWidth/2,getPaddingTop()+mLineHeight,getBottomPaint());
+        canvas.drawLine(getPaddingLeft()+mCursorWidth/2,getPaddingTop()+mLineHeight+mTextSize,getWidth()-mCursorWidth/2,getPaddingTop()+mLineHeight+mTextSize,getBottomPaint());
     }
 }
