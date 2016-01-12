@@ -39,6 +39,8 @@
         android:layout_marginTop="50dp"
         app:scaleLineStrokeWidth="2dp"
         app:scaleCursorImage="@drawable/ic_pin_red"
+        app:scaleTextColor="@color/colorPrimary"
+        app:scaleTextSize="15sp"
         />
 
 </LinearLayout>
