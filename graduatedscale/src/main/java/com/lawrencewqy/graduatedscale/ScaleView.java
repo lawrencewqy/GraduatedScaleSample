@@ -76,10 +76,26 @@ public class ScaleView extends ViewGroup {
 
     ArrayList<String> contentList;
 
-    public void setContentList(ArrayList<String> contentList) {
+
+    public ScaleView setContentList(ArrayList<String> contentList) {
         this.contentList = contentList;
+        mLineCount = contentList.size()-1;
         requestLayout();
+        return this;
     }
+
+    public ScaleView setLineSpace(int lineSpace){
+        mLineSpace = lineSpace;
+        requestLayout();
+        return this;
+    }
+
+    public ScaleView setTextSize(int sp){
+        mTextSize = (int) (sp*Resources.getSystem().getDisplayMetrics().scaledDensity);
+        requestLayout();
+        return this;
+    }
+
 
     public ScaleView(Context context) {
         this(context,null);
@@ -228,7 +244,7 @@ public class ScaleView extends ViewGroup {
             int top = getHeight()-mCursorHeight;
             mViewDragHelper.smoothSlideViewTo(mCursorView,left,top);
             ViewCompat.postInvalidateOnAnimation(ScaleView.this);
-            Toast.makeText(getContext(),"current position is "+currentPos,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"current position is " + currentPos + " content is " + (contentList != null ? contentList.get(currentPos):String.valueOf(currentPos)),Toast.LENGTH_SHORT).show();
         }
     };
 
