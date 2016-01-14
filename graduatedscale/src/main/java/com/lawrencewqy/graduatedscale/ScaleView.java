@@ -10,6 +10,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
@@ -96,7 +98,6 @@ public class ScaleView extends ViewGroup {
         return this;
     }
 
-
     public ScaleView(Context context) {
         this(context,null);
     }
@@ -116,12 +117,14 @@ public class ScaleView extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         if(mCursorView != null){
-            mCursorView.layout(0,getHeight()-mCursorHeight,mCursorWidth,getHeight());
+            int leftPos = currentPos * (mLineSpace + mLineStrokeWidth);
+            mCursorView.layout(leftPos,getHeight()-mCursorHeight,leftPos + mCursorWidth,getHeight());
         }
     }
 
     public ScaleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        Log.d("ScaleView","construct called");
         this.setWillNotDraw(false);
         //in ViewGroup if you override onDraw , you should setWillNotDraw(false)
         mViewDragHelper = ViewDragHelper.create(this,1.0f,mCallback);
@@ -310,5 +313,55 @@ public class ScaleView extends ViewGroup {
             canvas.drawText(content,left-mRect.exactCenterX(),getPaddingTop()+mTextSize/2 - mRect.exactCenterY(),getTextPaint());
         }
         canvas.drawLine(getPaddingLeft()+mCursorWidth/2,getPaddingTop()+mLineHeight+mTextSize,getWidth()-mCursorWidth/2,getPaddingTop()+mLineHeight+mTextSize,getBottomPaint());
+    }
+
+
+    static class SaveState extends BaseSavedState{
+
+        int currentPos;
+
+        public SaveState(Parcelable superState) {
+            super(superState);
+        }
+
+        public SaveState(Parcel source) {
+            super(source);
+            currentPos = source.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(currentPos);
+        }
+
+        public static final Parcelable.Creator<SaveState> CREATOR = new Parcelable.Creator<SaveState>(){
+            @Override
+            public SaveState createFromParcel(Parcel source) {
+                return new SaveState(source);
+            }
+
+            @Override
+            public SaveState[] newArray(int size) {
+                return new SaveState[size];
+            }
+        };
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Log.d("ScaleView","onSaveInstanceState");
+        Parcelable parcelable = super.onSaveInstanceState();
+        SaveState saveState = new SaveState(parcelable);
+        saveState.currentPos = currentPos;
+        return saveState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        Log.d("ScaleView","onRestoreInstanceState");
+        SaveState saveState = (SaveState) state;
+        super.onRestoreInstanceState(saveState.getSuperState());
+        currentPos = saveState.currentPos;
     }
 }
