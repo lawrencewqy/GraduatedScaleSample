@@ -14,23 +14,8 @@
     tools:context="com.lawrencewqy.graduatedscalesample.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <!--<com.lawrencewqy.graduatedscale.ScaleView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="50dp"-->
-        <!--app:scaleCursorColor="@color/colorAccent"-->
-        <!--app:scaleLineStrokeWidth="2dp" />-->
-
-
-    <!--<com.lawrencewqy.graduatedscale.ScaleView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="50dp"-->
-        <!--app:scaleCursorImage="@drawable/ic_pin"-->
-        <!--app:scaleLineStrokeWidth="2dp" />-->
-
     <com.lawrencewqy.graduatedscale.ScaleView
-        android:id="@+id/scaleview3"
+        android:id="@+id/scaleview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -38,5 +23,12 @@
         app:scaleLineStrokeWidth="2dp"
         app:scaleTextColor="@color/colorPrimary"
         app:scaleTextSize="15sp" />
+
+    <Button
+        android:id="@+id/btn_setcontent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set content"
+        />
 
 </LinearLayout>

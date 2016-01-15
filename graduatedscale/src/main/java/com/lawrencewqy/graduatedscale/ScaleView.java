@@ -319,6 +319,20 @@ public class ScaleView extends ViewGroup {
     static class SaveState extends BaseSavedState{
 
         int currentPos;
+        int lineCount;
+        int lineSpace;
+        ArrayList<String> contentList;
+        int cursorColor;
+        int lineColor;
+        int highLightColor;
+        int textColor;
+
+        int textSize;
+
+        int bottomStrokeWidth;
+
+        int lineHeight;
+        int lineStrokeWidth;
 
         public SaveState(Parcelable superState) {
             super(superState);
@@ -327,12 +341,35 @@ public class ScaleView extends ViewGroup {
         public SaveState(Parcel source) {
             super(source);
             currentPos = source.readInt();
+            source.readList(contentList,String.class.getClassLoader());
+            lineCount = source.readInt();
+            lineSpace = source.readInt();
+            cursorColor = source.readInt();
+            highLightColor = source.readInt();
+            lineColor = source.readInt();
+            textColor = source.readInt();
+            textSize = source.readInt();
+            bottomStrokeWidth = source.readInt();
+            lineHeight = source.readInt();
+            lineStrokeWidth = source.readInt();
+
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeInt(currentPos);
+            out.writeList(contentList);
+            out.writeInt(lineCount);
+            out.writeInt(lineSpace);
+            out.writeInt(cursorColor);
+            out.writeInt(highLightColor);
+            out.writeInt(lineColor);
+            out.writeInt(textColor);
+            out.writeInt(textSize);
+            out.writeInt(bottomStrokeWidth);
+            out.writeInt(lineHeight);
+            out.writeInt(lineStrokeWidth);
         }
 
         public static final Parcelable.Creator<SaveState> CREATOR = new Parcelable.Creator<SaveState>(){
@@ -354,6 +391,9 @@ public class ScaleView extends ViewGroup {
         Parcelable parcelable = super.onSaveInstanceState();
         SaveState saveState = new SaveState(parcelable);
         saveState.currentPos = currentPos;
+        saveState.contentList = contentList;
+        saveState.lineCount = mLineCount;
+        saveState.lineSpace = mLineSpace;
         return saveState;
     }
 
@@ -363,5 +403,8 @@ public class ScaleView extends ViewGroup {
         SaveState saveState = (SaveState) state;
         super.onRestoreInstanceState(saveState.getSuperState());
         currentPos = saveState.currentPos;
+        contentList = saveState.contentList;
+        mLineCount = saveState.lineCount;
+        mLineSpace = saveState.lineSpace;
     }
 }

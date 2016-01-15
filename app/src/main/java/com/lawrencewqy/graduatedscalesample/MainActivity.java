@@ -9,23 +9,29 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Bind(R.id.scaleview3)
+    @Bind(R.id.scaleview)
     ScaleView mScaleview3;
+    @OnClick(R.id.btn_setcontent)
+    void setContent(View view){
+        mScaleview3.setContentList(getScaleList()).setLineSpace(30).setTextSize(5);
+    }
 
     private ArrayList<String> getScaleList(){
         ArrayList<String> scaleList = new ArrayList<>();
@@ -40,8 +46,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        mScaleview3.setContentList(getScaleList()).setLineSpace(30).setTextSize(10);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
