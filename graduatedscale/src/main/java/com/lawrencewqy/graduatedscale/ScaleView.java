@@ -94,6 +94,7 @@ public class ScaleView extends ViewGroup {
 
     public ScaleView setTextSize(int sp){
         mTextSize = (int) (sp*Resources.getSystem().getDisplayMetrics().scaledDensity);
+        getTextPaint().setTextSize(mTextSize);
         requestLayout();
         return this;
     }
@@ -394,6 +395,14 @@ public class ScaleView extends ViewGroup {
         saveState.contentList = contentList;
         saveState.lineCount = mLineCount;
         saveState.lineSpace = mLineSpace;
+        saveState.cursorColor = mCursorColor;
+        saveState.highLightColor = mHighLightColor;
+        saveState.lineColor = mLineColor;
+        saveState.textColor = mTextColor;
+        saveState.textSize = mTextSize;
+        saveState.bottomStrokeWidth = mBottomStrokeWidth;
+        saveState.lineHeight = mLineHeight;
+        saveState.lineStrokeWidth = mLineStrokeWidth;
         return saveState;
     }
 
@@ -406,5 +415,13 @@ public class ScaleView extends ViewGroup {
         contentList = saveState.contentList;
         mLineCount = saveState.lineCount;
         mLineSpace = saveState.lineSpace;
+        mCursorColor = saveState.cursorColor;
+        mHighLightColor = saveState.highLightColor;
+        mLineColor = saveState.lineColor;
+        mTextColor = saveState.textColor;
+        mTextSize = saveState.textSize;
+        mBottomStrokeWidth = saveState.bottomStrokeWidth;
+        mLineHeight = saveState.lineHeight;
+        mLineStrokeWidth = saveState.lineStrokeWidth;
     }
 }

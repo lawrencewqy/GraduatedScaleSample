@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     ScaleView mScaleview3;
     @OnClick(R.id.btn_setcontent)
     void setContent(View view){
-        mScaleview3.setContentList(getScaleList()).setLineSpace(30).setTextSize(5);
+        mScaleview3.setContentList(getScaleList()).setLineSpace(30).setTextSize(10);
     }
 
     private ArrayList<String> getScaleList(){
