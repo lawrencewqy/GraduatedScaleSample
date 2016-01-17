@@ -99,6 +99,20 @@ public class ScaleView extends ViewGroup {
         return this;
     }
 
+    public ScaleView setLineStrokeWidth(int lineStroke){
+        mLineStrokeWidth = lineStroke;
+        getLinePaint().setStrokeWidth(mLineStrokeWidth);
+        requestLayout();
+        return this;
+    }
+
+    public ScaleView setBottomStroke(int bottomStroke){
+        mBottomStrokeWidth = bottomStroke;
+        getBottomPaint().setStrokeWidth(mBottomStrokeWidth);
+        requestLayout();
+        return this;
+    }
+
     public ScaleView(Context context) {
         this(context,null);
     }
@@ -251,6 +265,7 @@ public class ScaleView extends ViewGroup {
             Toast.makeText(getContext(),"current position is " + currentPos + " content is " + (contentList != null ? contentList.get(currentPos):String.valueOf(currentPos)),Toast.LENGTH_SHORT).show();
         }
     };
+
 
     @Override
     public void computeScroll() {

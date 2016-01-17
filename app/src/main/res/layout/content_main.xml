@@ -24,11 +24,118 @@
         app:scaleTextColor="@color/colorPrimary"
         app:scaleTextSize="15sp" />
 
-    <Button
-        android:id="@+id/btn_setcontent"
+        <Button
+            android:id="@+id/btn_setcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="set content"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="set textsize to "
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                />
+            <EditText
+                android:id="@+id/et_textsize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:minWidth="100dp"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_settextsize_ok"
+                android:text="confirm"
+                />
+        </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="set content"
-        />
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="set linespace to "
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:id="@+id/et_linespace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:minWidth="100dp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_linespace_ok"
+            android:text="confirm"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="set linestroke to "
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:id="@+id/et_linestroke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:minWidth="100dp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_linestroke_ok"
+            android:text="confirm"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="set bottomlinestroke to "
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:id="@+id/et_bottomlinestroke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:minWidth="100dp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_bottomlinestroke_ok"
+            android:text="confirm"
+            />
+    </LinearLayout>
 
 </LinearLayout>

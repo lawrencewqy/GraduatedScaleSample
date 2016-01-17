@@ -12,10 +12,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -26,11 +28,53 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    @Bind(R.id.et_bottomlinestroke)
+    EditText et_bottomlinestroke;
+    @Bind(R.id.et_linespace)
+    EditText et_linespace;
+    @Bind(R.id.et_linestroke)
+    EditText et_linestroke;
+    @Bind(R.id.et_textsize)
+    EditText et_textsize;
+
     @Bind(R.id.scaleview)
     ScaleView mScaleview3;
     @OnClick(R.id.btn_setcontent)
     void setContent(View view){
-        mScaleview3.setContentList(getScaleList()).setLineSpace(30).setTextSize(10);
+        mScaleview3.setContentList(getScaleList());
+    }
+
+    @OnClick(R.id.btn_linestroke_ok)
+    void setLineStroke(View view){
+        String linestroke = et_linestroke.getText().toString();
+        if(!TextUtils.isEmpty(linestroke)){
+            mScaleview3.setLineStrokeWidth(Integer.valueOf(linestroke));
+        }
+    }
+
+    @OnClick(R.id.btn_bottomlinestroke_ok)
+    void setbottomLineStroke(View view){
+        String bottomlinestroke = et_bottomlinestroke.getText().toString();
+        if(!TextUtils.isEmpty(bottomlinestroke)){
+            mScaleview3.setBottomStroke(Integer.valueOf(bottomlinestroke));
+        }
+    }
+
+    @OnClick(R.id.btn_linespace_ok)
+    void setlinespace(View view){
+        String linespace = et_linespace.getText().toString();
+        if(!TextUtils.isEmpty(linespace)){
+            mScaleview3.setLineSpace(Integer.valueOf(linespace));
+        }
+    }
+
+
+    @OnClick(R.id.btn_settextsize_ok)
+    void setTextSize(View view){
+        String textSize = et_textsize.getText().toString();
+        if(!TextUtils.isEmpty(textSize)){
+            mScaleview3.setTextSize(Integer.valueOf(textSize));
+        }
     }
 
     private ArrayList<String> getScaleList(){
