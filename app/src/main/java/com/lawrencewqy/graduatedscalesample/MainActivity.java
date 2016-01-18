@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @OnClick(R.id.btn_setcursor)
+    void setCursor(View view){
+        mScaleview3.setCursorImageRes(R.drawable.ic_pin);
+    }
+
     private ArrayList<String> getScaleList(){
         ArrayList<String> scaleList = new ArrayList<>();
         for(int i = 0;i<20;i++){

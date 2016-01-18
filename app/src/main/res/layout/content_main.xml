@@ -30,6 +30,13 @@
             android:layout_height="wrap_content"
             android:text="set content"
             />
+        <Button
+            android:id="@+id/btn_setcursor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_pin"
+            android:text="make left drawable to be the cursor"
+            />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

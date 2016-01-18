@@ -4,14 +4,18 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
+import android.support.v4.graphics.BitmapCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
@@ -109,6 +113,21 @@ public class ScaleView extends ViewGroup {
     public ScaleView setBottomStroke(int bottomStroke){
         mBottomStrokeWidth = bottomStroke;
         getBottomPaint().setStrokeWidth(mBottomStrokeWidth);
+        requestLayout();
+        return this;
+    }
+
+    public ScaleView setCursorImageRes(@DrawableRes int resId){
+        mCursorDrawable = new BitmapDrawable(getResources(),BitmapFactory.decodeResource(getResources(),resId));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mCursorView.setBackground(mCursorDrawable);
+        }else{
+            mCursorView.setBackgroundDrawable(mCursorDrawable);
+        }
+        if(mCursorDrawable != null) {
+            mCursorWidth = mCursorDrawable.getIntrinsicWidth();
+            mCursorHeight = mCursorDrawable.getIntrinsicHeight();
+        }
         requestLayout();
         return this;
     }
