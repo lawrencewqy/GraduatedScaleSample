@@ -3,20 +3,16 @@ package com.lawrencewqy.graduatedscalesample;
 import com.lawrencewqy.graduatedscale.ScaleView;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -38,17 +34,17 @@ public class MainActivity extends AppCompatActivity
     EditText et_textsize;
 
     @Bind(R.id.scaleview)
-    ScaleView mScaleview3;
+    ScaleView mScaleview;
     @OnClick(R.id.btn_setcontent)
     void setContent(View view){
-        mScaleview3.setContentList(getScaleList());
+        mScaleview.setContentList(getScaleList());
     }
 
     @OnClick(R.id.btn_linestroke_ok)
     void setLineStroke(View view){
         String linestroke = et_linestroke.getText().toString();
         if(!TextUtils.isEmpty(linestroke)){
-            mScaleview3.setLineStrokeWidth(Integer.valueOf(linestroke));
+            mScaleview.setLineStrokeWidth(Integer.valueOf(linestroke));
         }
     }
 
@@ -56,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     void setbottomLineStroke(View view){
         String bottomlinestroke = et_bottomlinestroke.getText().toString();
         if(!TextUtils.isEmpty(bottomlinestroke)){
-            mScaleview3.setBottomStroke(Integer.valueOf(bottomlinestroke));
+            mScaleview.setBottomStroke(Integer.valueOf(bottomlinestroke));
         }
     }
 
@@ -64,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     void setlinespace(View view){
         String linespace = et_linespace.getText().toString();
         if(!TextUtils.isEmpty(linespace)){
-            mScaleview3.setLineSpace(Integer.valueOf(linespace));
+            mScaleview.setLineSpace(Integer.valueOf(linespace));
         }
     }
 
@@ -73,13 +69,13 @@ public class MainActivity extends AppCompatActivity
     void setTextSize(View view){
         String textSize = et_textsize.getText().toString();
         if(!TextUtils.isEmpty(textSize)){
-            mScaleview3.setTextSize(Integer.valueOf(textSize));
+            mScaleview.setTextSize(Integer.valueOf(textSize));
         }
     }
 
     @OnClick(R.id.btn_setcursor)
     void setCursor(View view){
-        mScaleview3.setCursorImageRes(R.drawable.ic_pin);
+        mScaleview.setCursorImageRes(R.drawable.ic_pin);
     }
 
     private ArrayList<String> getScaleList(){
@@ -98,15 +94,6 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

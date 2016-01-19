@@ -1,6 +1,6 @@
 #Graduated Scale for android
 
-this is a custom view for graduated scale in android , like like the gif below:
+this is a custom view for graduated scale in android ,like the gif below:
 
 ![](http://ww2.sinaimg.cn/bmiddle/5357de80gw1f056h6xh2dg20b60ik4qs.gif)
 
