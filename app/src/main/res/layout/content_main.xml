@@ -18,7 +18,6 @@
         android:id="@+id/scaleview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         app:scaleCursorImage="@drawable/ic_pin_red"
         app:scaleLineStrokeWidth="2dp"
         app:scaleTextColor="@color/colorPrimary"
@@ -30,6 +29,12 @@
             android:layout_height="wrap_content"
             android:text="set content"
             />
+    <Button
+        android:id="@+id/btn_sethighlightcolor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set highlight color to green"
+        />
         <Button
             android:id="@+id/btn_setcursor"
             android:layout_width="wrap_content"

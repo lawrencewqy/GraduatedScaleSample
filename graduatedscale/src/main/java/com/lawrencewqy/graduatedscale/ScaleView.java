@@ -117,6 +117,12 @@ public class ScaleView extends ViewGroup {
         return this;
     }
 
+    public ScaleView setHighLightColor(int color){
+        mHighLightColor = color;
+        invalidate();
+        return this;
+    }
+
     public ScaleView setCursorImageRes(@DrawableRes int resId){
         mCursorDrawable = new BitmapDrawable(getResources(),BitmapFactory.decodeResource(getResources(),resId));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

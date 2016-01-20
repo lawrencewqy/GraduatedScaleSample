@@ -2,6 +2,7 @@ package com.lawrencewqy.graduatedscalesample;
 
 import com.lawrencewqy.graduatedscale.ScaleView;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -76,6 +77,11 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.btn_setcursor)
     void setCursor(View view){
         mScaleview.setCursorImageRes(R.drawable.ic_pin);
+    }
+
+    @OnClick(R.id.btn_sethighlightcolor)
+    void sethighlightcolor(View v){
+        mScaleview.setHighLightColor(Color.GREEN);
     }
 
     private ArrayList<String> getScaleList(){
